@@ -20,7 +20,7 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final var path = request.getServletPath(); // FIXME: RTFM
+        final var path = request.getServletPath();
         final var method = request.getMethod();
 
         try {
