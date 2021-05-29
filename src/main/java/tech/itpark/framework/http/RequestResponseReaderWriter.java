@@ -22,7 +22,6 @@ public class RequestResponseReaderWriter {
 
             return converter.read(request, clazz);
         }
-        // TODO: convert to special exception
         throw new RuntimeException("no converters support given content type");
     }
 
@@ -38,11 +37,9 @@ public class RequestResponseReaderWriter {
                 return;
             } catch (IOException e) {
                 e.printStackTrace();
-                // TODO: convert to special exception
                 throw new RuntimeException(e);
             }
         }
-        // TODO: convert to special exception
         throw new RuntimeException("no converters support given content type");
     }
 
