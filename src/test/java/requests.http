@@ -1,0 +1,236 @@
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "password": "admin"
+}
+
+> {%
+client.test("Request executed successfully", function() {
+  client.assert(response.status === 200, "Response status is not 200");
+  client.assert(response.contentType.mimeType === "application/json", "Response Content-Type is not application/json");
+  client.global.set("token", response.body.token);
+});
+%}
+
+###
+GET {{host}}/api/user/all
+Authorization:  {{token}}
+
+###
+POST {{host}}/api/user/setrole
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "userId": 3,
+  "roleId": 2
+}
+###
+POST {{host}}/api/user/removerole
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "userId": 3,
+  "roleId": 2
+}
+
+###
+GET {{host}}/api/user/get
+Authorization:  {{token}}
+Content-Type: application/json
+
+{
+  "id": 3
+}
+###
+POST {{host}}/api/user/remove
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 3
+}
+
+###
+POST {{host}}/api/register
+Content-Type: application/json
+
+{
+  "login": "test3",
+  "password": "test",
+  "secret": "testuser"
+}
+###
+POST {{host}}/api/user/reset
+Content-Type: application/json
+
+{
+  "login": "test3",
+  "password": "newpass",
+  "secret": "testuser"
+}
+
+###
+GET {{host}}/api/warehouse/all
+Authorization:  {{token}}
+
+###
+POST http://localhost:8080/api/warehouse/new
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "name": "test123"
+}
+
+###
+GET  {{host}}/api/product
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "wareHouseId": 1
+}
+###
+POST {{host}}/api/product/save
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "vendorCode": 12399,
+  "name": "bananas"
+}
+###
+GET {{host}}/api/product/warehouse
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+POST  {{host}}/api/purchase
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "wareHouseId": 1,
+  "purchaseItems": [
+    {
+      "productId": 1,
+      "pricePerOne": 11,
+      "count": 6
+    },
+    {
+      "productId": 2,
+      "pricePerOne": 80,
+      "count": 3
+    }
+  ]
+}
+
+###
+GET {{host}}/api/purchase/warehouse
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+###
+POST  {{host}}/api/sale
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "wareHouseId": 1,
+  "saleItems": [
+    {
+      "productId": 1,
+      "pricePerOne": 11,
+      "count": 6
+    },
+    {
+      "productId": 2,
+      "pricePerOne": 80,
+      "count": 3
+    }
+  ]
+}
+
+###
+GET {{host}}/api/sale/warehouse
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+
+###
+POST {{host}}/api/moving
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "id": 0,
+  "wareHouseFromId": 1,
+  "wareHouseToId": 2,
+  "movingItems": [
+    {
+      "productId": 1,
+      "count": 5
+    },
+    {
+      "productId": 3,
+      "count": 5
+    }
+  ]
+}
+
+###
+GET {{host}}/api/moving/all
+Authorization: {{token}}
+
+###
+POST {{host}}/api/media
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="purchase"; filename="purchase.csv"
+
+< ./purchase.csv
+
+###
+POST {{host}}/api/media
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="sale"; filename="sale.csv"
+
+< ./sale.csv
+
+###
+POST {{host}}/api/media
+Authorization: {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="moving"; filename="moving.csv"
+
+< ./moving.csv
+
+###

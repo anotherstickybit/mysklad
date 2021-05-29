@@ -1,0 +1,35 @@
+package tech.itpark.app.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import tech.itpark.app.dto.purchase.PurchaseByWareHouseIdRequestDto;
+import tech.itpark.app.dto.purchase.PurchaseSaveRequestDto;
+import tech.itpark.app.dto.sale.SaleByWareHouseIdRequestDto;
+import tech.itpark.app.dto.sale.SaleSaveRequestDto;
+import tech.itpark.app.service.PurchaseService;
+import tech.itpark.app.service.SaleService;
+import tech.itpark.framework.http.ContentTypes;
+import tech.itpark.framework.http.ServerRequest;
+import tech.itpark.framework.http.ServerResponse;
+
+import java.io.IOException;
+
+@Controller
+@RequiredArgsConstructor
+public class SaleController {
+    private final SaleService saleService;
+
+    public void saveSale(ServerRequest request, ServerResponse response) throws IOException {
+        final var auth = request.auth();
+        final var dto = request.read(SaleSaveRequestDto.class);
+        final var data = saleService.save(auth, dto);
+        response.write(data, ContentTypes.APPLICATION_JSON);
+    }
+
+    public void getAllByWareHouseId(ServerRequest request, ServerResponse response) throws IOException {
+        final var auth = request.auth();
+        final var dto = request.read(SaleByWareHouseIdRequestDto.class);
+        final var data = saleService.getAllForWarehouse(auth, dto);
+        response.write(data, ContentTypes.APPLICATION_JSON);
+    }
+}

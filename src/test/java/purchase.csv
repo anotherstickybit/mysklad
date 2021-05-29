@@ -1,0 +1,2 @@
+id,wareHouseId,purchaseItems
+0,1,"[{""count"":5,""productId"":1,""pricePerOne"":11},{""count"":3,""productId"":2,""pricePerOne"":80}]"

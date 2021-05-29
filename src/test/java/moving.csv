@@ -1,0 +1,2 @@
+id,wareHouseFromId,wareHouseToId,movingItems
+0,1,2,"[{""count"":5,""productId"":1},{""count"":3,""productId"":3}]"
